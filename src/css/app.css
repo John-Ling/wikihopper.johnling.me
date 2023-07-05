@@ -1,0 +1,10 @@
+.main-view {
+  display: flex;
+}
+
+#wiki-iframe {
+  width: 80vw;
+  height: 100vh;
+}
+
+/*# sourceMappingURL=app.css.map */

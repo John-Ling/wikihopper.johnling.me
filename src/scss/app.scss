@@ -1,0 +1,11 @@
+@use "./constants.scss" as c;
+
+.main-view {
+	display: flex;
+}
+
+
+#wiki-iframe {
+	width: 80vw;
+	height: 100vh;
+}
