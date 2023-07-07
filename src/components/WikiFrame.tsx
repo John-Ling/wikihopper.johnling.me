@@ -1,20 +1,15 @@
 import { useState } from "react";
 import { WikipediaData } from "../types";
 import "../css/wiki_frame.css";
+import "../css/wikipedia.css";
 
-export const WikiFrame: React.FC<{ wikiData: WikipediaData[] }> = ({ wikiData }) => {
-	const [visibility, setVisiblity] = useState(true); // Determines which iframe is shown (true or 1 = 1st | false or 0 = 2nd)
-
-	console.log(wikiData);
-	//let displayData = wikiData.map((data: WikipediaData) => { <div dangerouslySetInnerHTML={{ __html: data.parse.text['*'] }}/> });
-	let displayData = wikiData.map((data: WikipediaData) => <div class="wiki-frame" dangerouslySetInnerHTML={{__html: data.parse.text['*']}}/>);
-	let wikiFrameA = displayData[0];
-	let wikiFrameB = displayData[1];
+export const WikiFrame: React.FC<{ wikiData: WikipediaData[], visible: boolean }> = ({ wikiData, visible }) => {
+	let displayData = wikiData.map((data: WikipediaData) => <div className="wiki-frame" dangerouslySetInnerHTML={{__html: data.parse.text['*']}}/>);
+	let wikiFrameA = displayData ? displayData[0] : <p>Loading</p>;
+	let wikiFrameB = displayData ? displayData[1] : <p>Loading</p>;
 	return (
 		<>
-			{/* {wikiData ? <div dangerouslySetInnerHTML={{ __html: wikiData.parse.text['*'] }} /> : <p>Loading</p>} */}
-			{ visibility ? wikiFrameA : wikiFrameB }
-			<button onClick={() => setVisiblity(!visibility)}>Click me</button>
+			{ visible ? wikiFrameA : wikiFrameB }
 		</>
 	);
 }

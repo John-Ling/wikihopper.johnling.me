@@ -10,7 +10,7 @@ function App() {
     const [titles, setTitles] = useState<string[]>([]);
     const [wikiData, setWikiData] = useState<WikipediaData[]>([]);
     const [hopCount, setHopCount] = useState(10);
-    const [state, setState] = useState(false);
+    const [visible, setVisible] = useState(true);  // Determines which iframe is shown (true or 1 = 1st | false or 0 = 2nd)
 
 
     let hopIcons: HopIcon[] = []
@@ -44,13 +44,15 @@ function App() {
             .then(response => {
                 let titles = response.query.random;
                 let tmp: string[] = [];
+
                 titles.forEach((obj: any) => {
                     if (!blocked) {
                         tmp.push(obj.title);
                     }
                 })
+
                 setTitles(tmp);
-                //console.log(titles);
+                
                 titles.forEach((title: {title: string}) => {
                     console.log(title);
                     if (!blocked) {
@@ -74,9 +76,10 @@ function App() {
             <div className="main-view">
                 {/* {visibility ? { wikiData ? <WikiFrame wikiData={wikiData[0]}/> : <p>Loading</p>} : <p>Hello</p>} */}
                 {/* { wikiData.map((data: WikipediaData) => <div dangerouslySetInnerHTML={{ __html: data.parse.text['*']}}/>)} */}
-                <WikiFrame wikiData={wikiData}/>
+                <WikiFrame visible={visible} wikiData={wikiData}/>
                 {/* {wikiData ? <div dangerouslySetInnerHTML={{ __html: wikiData.parse.text['*'] }} /> : <p>Loading</p>} */}
             </div>
+            <button onClick={() => setVisible(!visible)}>Toggle</button>
         </>
     );
 }
