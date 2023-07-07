@@ -6,18 +6,25 @@ import { HopIcon } from "../types";
 import "../css/hop_bar.css";
 
 export const HopBar: React.FC<{hopIcons: HopIcon[]}> = ({ hopIcons }) => {
-	const icons = hopIcons.map((icon: HopIcon) => <HopIconComponent active={ icon.active }/>);
+	const icons = hopIcons.map((icon: HopIcon, index: number) => <HopIconComponent key={index} active={ icon.active }/>);
 	return (
 		<>
 			<div className="hop-bar">{ icons }</div>
 		</>
-	)
+	);
 };
 
 const HopIconComponent: React.FC<{active: boolean}> = ({ active }) => {
 	return (
 		<>
-			<span className="hop-icon">{ active ? <FontAwesomeIcon icon={ faCircle }/> : <FontAwesomeIcon icon={ faCircleRegular }/> }</span>
+			<span className="hop-icon">
+				{ 
+					active ?
+						<span className="active"><FontAwesomeIcon icon={ faCircle }/></span>  
+					: 
+						<span><FontAwesomeIcon icon={ faCircleRegular }/></span>
+				}
+			</span>
 		</>
-	)
+	);
 };

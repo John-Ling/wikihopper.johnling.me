@@ -6,8 +6,21 @@
 	background-color: c.$green;
 	font-size: 1.5rem;
 	text-align: center;
-	
-	.hop-icon {
-		margin: 0.25rem;
+	color: c.$white;
+}
+
+.hop-icon {
+	margin: 0.4rem;
+	.active {
+		animation: 1.5s infinite blink step-end;
+	}
+}
+
+@keyframes blink {
+	from, to {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
 	}
 }

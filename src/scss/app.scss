@@ -2,10 +2,12 @@
 
 .main-view {
 	display: flex;
+	justify-content: center;
+	padding: 1rem;
 }
 
 
-#wiki-iframe {
+.wiki-iframe {
 	width: 80vw;
-	height: 100vh;
+	height: 80vh;
 }
