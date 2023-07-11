@@ -88,8 +88,8 @@ function App() {
 
     return (
         <>
-            <button onClick={() => setVisible(!visible)}>Toggle</button>
-            <StatusBar hopIcons={hopIcons}></StatusBar>
+            <StatusBar hops_={10}/>
+            {/* <button onClick={() => setVisible(!visible)}>Toggle</button> */}
             <div className="main-view">
                 <WikiFrame visible={visible} wikiData={wikiData} />
             </div>

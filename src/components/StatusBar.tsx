@@ -1,30 +1,15 @@
-import  React  from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle as faCircleRegular} from "@fortawesome/free-regular-svg-icons";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { HopIcon } from "../types";
-import "../css/hop_bar.css";
+import React, { useState, useEffect } from "react";
+import "../css/status_bar.css";
 
-export const StatusBar: React.FC<{hopIcons: HopIcon[]}> = ({ hopIcons }) => {
-	const icons = hopIcons.map((icon: HopIcon, index: number) => <HopIconComponent key={index} active={ icon.active }/>);
+export const StatusBar: React.FC<{hops_: number}> = ({ hops_ }) => {
+	const [hops, setHops] = useState(hops_);
+
 	return (
 		<>
-			<div className="hop-bar">{ icons }</div>
-		</>
-	);
-};
-
-const HopIconComponent: React.FC<{active: boolean}> = ({ active }) => {
-	return (
-		<>
-			<span className="hop-icon">
-				{ 
-					active ?
-						<span className="active"><FontAwesomeIcon icon={ faCircle }/></span>  
-					: 
-						<span><FontAwesomeIcon icon={ faCircleRegular }/></span>
-				}
-			</span>
+			<div className="status-bar">
+				<button className="toggle-view-button" onClick={() => console.log("hello")}>Change View</button>
+				<p className="hop-counter">Hops Left: {hops}</p>
+			</div>
 		</>
 	);
 };

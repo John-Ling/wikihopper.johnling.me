@@ -1,0 +1,31 @@
+.status-bar {
+  display: flex;
+  justify-content: space-around;
+  background-color: #1183ee;
+  text-align: center;
+  color: #FFFFFF;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  max-width: 100%;
+}
+
+.toggle-view-button {
+  align-self: center;
+  padding: 1rem;
+  border: none;
+  background-color: #00c662;
+  color: #FFFFFF;
+  border-radius: 5px;
+}
+.toggle-view-button:hover {
+  background-color: #00bc5d;
+  color: #f2f2f2;
+}
+
+.hop-counter {
+  align-self: center;
+}
+
+/*# sourceMappingURL=status_bar.css.map */
