@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
 import "../css/status_bar.css";
 
-export const StatusBar: React.FC<{hops_: number}> = ({ hops_ }) => {
-	const [hops, setHops] = useState(hops_);
+export const StatusBar: React.FC<{hops: number, onToggleButtonClick(): void }> = ({ hops, onToggleButtonClick }) => {
 
 	return (
 		<>
 			<div className="status-bar">
-				<button className="toggle-view-button" onClick={() => console.log("hello")}>Change View</button>
-				<p className="hop-counter">Hops Left: {hops}</p>
+				<button className="toggle-view-button nav-item" onClick={onToggleButtonClick}>Change View</button>
+				<p className="hop-counter nav-item">Hops Left: {hops}</p>
 			</div>
 		</>
 	);

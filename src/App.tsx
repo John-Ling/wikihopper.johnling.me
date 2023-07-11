@@ -1,7 +1,7 @@
-import { useState, useEffect, LinkHTMLAttributes } from "react";
+import { useState, useEffect } from "react";
 import { StatusBar } from "./components/StatusBar";
 import { WikiFrame } from "./components/WikiFrame";
-import { HopIcon, WikipediaData } from "./types";
+import { WikipediaData } from "./types";
 import "./css/app.css";
 
 const cache: Map<string, Promise<WikipediaData>> = new Map();
@@ -26,17 +26,16 @@ function App() {
     const [hopCount, setHopCount] = useState(10);
     const [visible, setVisible] = useState(true);  // Determines which iframe is shown (true or 1 = 1st | false or 0 = 2nd)
 
-
-    let hopIcons: HopIcon[] = []
-    for (let i = 0; i < hopCount; i++) hopIcons.push({ active: false });
-    hopIcons[0].active = true;
-
     useEffect(() => { // Generates HTML of two random wikipedia articles
         const generate_wikipedia_titles = async (): Promise<any> => {
             const API_ENDPOINT: string = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=random&rnnamespace=0&rnlimit=2&origin=*`;
             let data: Response = await fetch(API_ENDPOINT, { method: "GET" });
             let json = await data.json();
-            let titles = json.query.random;
+            let titles = json.query.random; 
+
+            if (titleA === "") {
+                console.log("");
+            }
 
             titles.forEach((title: { id: number, title: string }) => { // Get HTML data using wikipedia titles
                 if (!blocked) {
@@ -53,7 +52,8 @@ function App() {
         }
 
         let blocked: boolean = false;
-        generate_wikipedia_titles();
+        if (!blocked) generate_wikipedia_titles();
+
         return () => {
             blocked = true;
         }
@@ -66,14 +66,18 @@ function App() {
             document.querySelectorAll('a').forEach(element => {
                 element.addEventListener("click", (event: any) => {
                     event.preventDefault();
+
+                    if (!visible) return; // Disable link clicks for second target page
+
                     let targetURL: string = event.target.href;
                     let title: string = targetURL.split("/wiki/")[1];
+                    title = title.replace(/_/g, ' ');
                     setTitleA(title);
     
                     if (title === titleB) {
                         console.log("Match");
                     } else {
-                        setHopCount(previous => previous - 1);
+                        if (!blocked) setHopCount(previous => previous - 1);
                     }
     
                     get_wikipedia_data(targetURL.split("/wiki/")[1])?.then(data => setWikiData(previous => [data, previous[1]]));
@@ -88,9 +92,8 @@ function App() {
 
     return (
         <>
-            <StatusBar hops_={10}/>
-            {/* <button onClick={() => setVisible(!visible)}>Toggle</button> */}
             <div className="main-view">
+                <StatusBar hops={hopCount} onToggleButtonClick={() => setVisible(!visible)}/>
                 <WikiFrame visible={visible} wikiData={wikiData} />
             </div>
         </>

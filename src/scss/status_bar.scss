@@ -3,16 +3,17 @@
 
 .status-bar {
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	background-color: c.$blue;
 	text-align: center;
 	color: c.$white;
 
+
 	position: fixed;
 	top: 0;
-	right: 0;
-	width: 100vw;
-	max-width: 100%;
+	width: 100%;
+	// width: 100vw;
+	// max-width: 100%;
 }
 
 .toggle-view-button {
@@ -31,4 +32,8 @@
 
 .hop-counter {
 	align-self: center;
+}
+
+.nav-item {
+	margin: 0.5rem 1rem;
 }
