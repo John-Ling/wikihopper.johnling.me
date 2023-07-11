@@ -1,3 +1,8 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
 .mw-editsection,
 .hide-when-compact,
 .ambox {
@@ -5,7 +10,7 @@
 }
 
 .infobox {
-  background: #303030;
+  background: #F0F0F0;
   border-radius: 5px;
   padding: 0.2em;
   float: right;
@@ -15,27 +20,10 @@
   width: inherit;
 }
 
-.infobox-header,
-.infobox-above {
-  background-color: #686868 !important;
-}
-
 .infobox-image {
   text-align: center;
 }
 
-.wikitable {
-  background-color: #303030;
-}
-
-@media (max-width: 440px) {
-  .infobox {
-    margin: 0;
-    float: none;
-    width: unset !important;
-    max-width: unset;
-  }
-}
 img {
   border: 0;
   vertical-align: middle;
@@ -53,8 +41,11 @@ hr {
 
 .siteSub {
   margin-top: -1em;
-  font-size: 92%;
   margin-bottom: 1.2em;
+}
+
+.wikitable {
+  max-width: 80vw !important;
 }
 
 h1,
@@ -75,12 +66,13 @@ a {
   text-decoration: none;
   color: #1183ee;
   background: none;
-  word-break: break-all;
+  word-break: normal;
 }
-
-a:hover,
-a:focus {
+a:focus, a:hover {
   text-decoration: underline;
+}
+a:visited {
+  color: #6529d6;
 }
 
 a:visited {
@@ -115,7 +107,15 @@ a:visited {
 }
 .thumbinner {
   padding: 3px;
-  font-size: 94%;
+}
+
+@media (max-width: 440px) {
+  .infobox {
+    margin: 0;
+    float: none;
+    width: unset !important;
+    max-width: unset;
+  }
 }
 
 /*# sourceMappingURL=wikipedia.css.map */

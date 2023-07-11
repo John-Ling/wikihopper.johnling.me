@@ -1,12 +1,6 @@
 .main-view {
   display: flex;
   justify-content: center;
-  padding: 1rem;
-}
-
-.wiki-iframe {
-  width: 80vw;
-  height: 80vh;
 }
 
 /*# sourceMappingURL=app.css.map */

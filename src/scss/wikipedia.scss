@@ -6,6 +6,11 @@
 // 	}
 // }
 
+body {
+	display: flex;
+	justify-content: center;
+}
+
 .mw-editsection,
 .hide-when-compact,
 .ambox {
@@ -13,7 +18,7 @@
 }
 
 .infobox {
-	background: c.$background-dark;
+	background: c.$whiteish;
 	border-radius: 5px;
 	padding: 0.2em;
 	float: right;
@@ -24,33 +29,16 @@
 	
 }
 
-.infobox-header,
-.infobox-above {
-	background-color: c.$background-light !important;
-}
-
 .infobox-image {
 	text-align: center;
 }
 
-.wikitable {
-	background-color: c.$background-dark;
-}
 
 // @media (prefers-color-scheme: dark) {
 // 	.infobox {
 // 		background-color: inherit;
 // 	}
 // }
-
-@media (max-width: 440px) {
-	.infobox {
-		margin: 0;
-		float: none;
-		width: unset !important;
-		max-width: unset;
-	}
-}
 
 img {
 	border: 0;
@@ -69,8 +57,12 @@ hr {
 
 .siteSub {
 	margin-top: -1em;
-	font-size: 92%;
+	//font-size: 92%;
 	margin-bottom: 1.2em;
+}
+
+.wikitable {
+	max-width: 80vw !important;
 }
 
 h1,
@@ -91,12 +83,16 @@ a {
 	text-decoration: none;
 	color: c.$blue;
 	background: none;
-	word-break: break-all;
-}
+	word-break: normal;
 
-a:hover,
-a:focus {
-	text-decoration: underline;
+	&:focus,
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&:visited {
+		color: c.$indigo;
+	}
 }
 
 a:visited {
@@ -140,5 +136,14 @@ a:visited {
 
 .thumbinner {
 	padding: 3px;
-	font-size: 94%;
+	//font-size: 94%;
+}
+
+@media (max-width: 440px) {
+	.infobox {
+		margin: 0;
+		float: none;
+		width: unset !important;
+		max-width: unset;
+	}
 }

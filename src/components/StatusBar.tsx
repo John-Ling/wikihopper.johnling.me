@@ -5,7 +5,7 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { HopIcon } from "../types";
 import "../css/hop_bar.css";
 
-export const HopBar: React.FC<{hopIcons: HopIcon[]}> = ({ hopIcons }) => {
+export const StatusBar: React.FC<{hopIcons: HopIcon[]}> = ({ hopIcons }) => {
 	const icons = hopIcons.map((icon: HopIcon, index: number) => <HopIconComponent key={index} active={ icon.active }/>);
 	return (
 		<>
