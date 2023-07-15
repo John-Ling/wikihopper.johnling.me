@@ -1,12 +1,12 @@
 .wiki-frame {
+  margin: 9rem 0;
+}
+
+.wiki-view {
   width: 80vw;
   max-width: 80%;
   height: 80vh;
   max-height: 80%;
-}
-
-.hidden {
-  display: none;
 }
 
 /*# sourceMappingURL=wiki_frame.css.map */

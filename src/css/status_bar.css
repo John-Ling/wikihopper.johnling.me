@@ -9,25 +9,27 @@
   width: 100%;
 }
 
+.settings-button,
 .toggle-view-button {
-  align-self: center;
-  padding: 1rem;
+  padding: 0.5rem;
+  padding: 0.5rem;
   border: none;
   background-color: #00c662;
   color: #FFFFFF;
   border-radius: 5px;
 }
+.settings-button:hover,
 .toggle-view-button:hover {
   background-color: #00bc5d;
   color: #f2f2f2;
 }
 
-.hop-counter {
-  align-self: center;
+.nav-item {
+  margin: 0.1rem 1rem;
 }
 
-.nav-item {
-  margin: 0.5rem 1rem;
+.button-counter-pair {
+  align-self: center;
 }
 
 /*# sourceMappingURL=status_bar.css.map */

@@ -6,3 +6,14 @@ export type WikipediaData = { // Format of JSON data received by calling the wik
 		text: {};
 	}
 };
+
+export type TitlesObj = {
+	current: string;
+	start: string;
+	destination: string;
+}
+
+export type ResultsData = {
+	visible: boolean;
+	won: boolean;
+};

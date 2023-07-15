@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { StatusBar } from "./components/StatusBar";
 import { WikiFrame } from "./components/WikiFrame";
-import { WikipediaData } from "./types";
+import { ResultsPage } from "./components/ResultsPage";
+import { Footer } from "./components/Footer";
+import { WikipediaData, ResultsData } from "./types";
 import "./css/app.css";
 
 const cache: Map<string, Promise<WikipediaData>> = new Map();
@@ -20,39 +22,40 @@ const get_wikipedia_data = (title: string): Promise<WikipediaData> | undefined =
 }
 
 function App() {
-    const [titleA, setTitleA] = useState<string>(""); // Starting title where the player starts
-    const [titleB, setTitleB] = useState<string>("");
+    const [startingTitle, setStartingTitle] = useState<string>(""); // Starting title where the player starts
+    const [currentTitle, setCurrentTitle] = useState<string>("");
+    const [destinationTitle, setDestinationTitle] = useState<string>("");
     const [wikiData, setWikiData] = useState<WikipediaData[]>([]);
     const [hopCount, setHopCount] = useState(10);
     const [visible, setVisible] = useState(true);  // Determines which iframe is shown (true or 1 = 1st | false or 0 = 2nd)
+    const [resultsData, setResultsData] = useState<ResultsData>({visible: false, won: false});
 
     useEffect(() => { // Generates HTML of two random wikipedia articles
         const generate_wikipedia_titles = async (): Promise<any> => {
-            const API_ENDPOINT: string = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=random&rnnamespace=0&rnlimit=2&origin=*`;
-            let data: Response = await fetch(API_ENDPOINT, { method: "GET" });
-            let json = await data.json();
-            let titles = json.query.random; 
+            // const API_ENDPOINT: string = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=random&rnnamespace=0&rnlimit=2&origin=*`;
+            // let data: Response = await fetch(API_ENDPOINT, { method: "GET" });
+            // let json = await data.json();
+            // let titles = json.query.random; 
+            // Metro-Goldwyn-Mayer
+            let titles = [{ id: 65243424, ns: 0, title: "Sophie Wachner" }, { id: 24370563, ns: 0, title: "Metro-Goldwyn-Mayer" }];
 
-            if (titleA === "") {
-                console.log("");
-            }
-
-            titles.forEach((title: { id: number, title: string }) => { // Get HTML data using wikipedia titles
-                if (!blocked) {
-                    let searchTitle: string = title.title;
-                    get_wikipedia_data(searchTitle)?.then(data => {
-                        setWikiData(previous => [...previous, data]);
-                    });
-                }
+            titles.forEach(async (title: any) => { // Get HTML data using wikipedia titles
+                    let data: WikipediaData | undefined = await get_wikipedia_data(title.title);
+                    if (data === undefined) return;
+                    
+                    if (!blocked) setWikiData(previous => [...previous, data || {parse: {title: "", pageID: 0, revID: 0, text: {}}}]);
             });
 
-            setTitleA(titles[0].title);
-            setTitleB(titles[1].title);
+            setStartingTitle(titles[0].title);
+            setDestinationTitle(titles[1].title);
             return;
         }
 
         let blocked: boolean = false;
-        if (!blocked) generate_wikipedia_titles();
+
+        if (startingTitle === "" && destinationTitle === "") {
+            generate_wikipedia_titles();
+        }
 
         return () => {
             blocked = true;
@@ -71,20 +74,20 @@ function App() {
 
                     let targetURL: string = event.target.href;
                     let title: string = targetURL.split("/wiki/")[1];
+                    title = title.split("#")[0]; // Remove any id tags
                     title = title.replace(/_/g, ' ');
-                    setTitleA(title);
-    
-                    if (title === titleB) {
-                        console.log("Match");
-                    } else {
-                        if (!blocked) setHopCount(previous => previous - 1);
-                    }
-    
-                    get_wikipedia_data(targetURL.split("/wiki/")[1])?.then(data => setWikiData(previous => [data, previous[1]]));
+                    
+                    setCurrentTitle(title);
+                    setHopCount(hopCount - 1);
+
+                    if (wikiData === undefined) return;
+                    let destinationPage: WikipediaData = wikiData[1];
+
+                    get_wikipedia_data(title)?.then(newPage => setWikiData([newPage, destinationPage]));
                 });
             });
         }
-
+        
         return () => {
             blocked = true;
         }
@@ -93,11 +96,12 @@ function App() {
     return (
         <>
             <div className="main-view">
-                <StatusBar hops={hopCount} onToggleButtonClick={() => setVisible(!visible)}/>
+                <StatusBar hops={hopCount} onToggleButtonClick={() => setVisible(visible => !visible)} titles={[startingTitle, destinationTitle]}/>
                 <WikiFrame visible={visible} wikiData={wikiData} />
+                {/* <ResultsPage data={resultsData} /> */}
             </div>
         </>
     );
 }
 
-export default App
+export default App;

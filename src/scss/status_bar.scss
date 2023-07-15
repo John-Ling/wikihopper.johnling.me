@@ -8,32 +8,35 @@
 	text-align: center;
 	color: c.$white;
 
-
 	position: fixed;
 	top: 0;
 	width: 100%;
-	// width: 100vw;
-	// max-width: 100%;
+	
 }
 
-.toggle-view-button {
-	align-self: center;
-	padding: 1rem;
+@mixin button($colour) {
+	padding: 0.5rem;
+	padding: 0.5rem;
 	border: none;
-	background-color: c.$green;
+	background-color: $colour;
 	color: c.$white;
 	border-radius: 5px;
 
 	&:hover {
-		background-color: color.scale(c.$green, $lightness: -5%);
+		background-color: color.scale($colour, $lightness: -5%);
 		color: color.scale(c.$white, $lightness: -5%);
 	}
 }
 
-.hop-counter {
-	align-self: center;
+.settings-button,
+.toggle-view-button {
+	@include button(c.$green);
 }
 
 .nav-item {
-	margin: 0.5rem 1rem;
+	margin: 0.1rem 1rem;
+}
+
+.button-counter-pair {
+	align-self: center;
 }

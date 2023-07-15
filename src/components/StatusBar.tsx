@@ -1,12 +1,18 @@
 import "../css/status_bar.css";
 
-export const StatusBar: React.FC<{hops: number, onToggleButtonClick(): void }> = ({ hops, onToggleButtonClick }) => {
+export const StatusBar: React.FC<{hops: number, onToggleButtonClick(): void, titles: string[] }> = ({ hops, onToggleButtonClick, titles }) => {
+	let pageLabels: JSX.Element[] = titles.map((title: string, index: number) => <p>{index == 0 ? "Start" : "Target"}: {title}</p>);
 
 	return (
 		<>
 			<div className="status-bar">
-				<button className="toggle-view-button nav-item" onClick={onToggleButtonClick}>Change View</button>
-				<p className="hop-counter nav-item">Hops Left: {hops}</p>
+				<div className="nav-item button-counter-pair">
+					<p><button className="toggle-view-button" onClick={onToggleButtonClick}>Change View</button></p>
+					<p className="hop-counter">Hops Left: {hops}</p>
+				</div>
+				<div className="nav-item">
+					{pageLabels}
+				</div>
 			</div>
 		</>
 	);

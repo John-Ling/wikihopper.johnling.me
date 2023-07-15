@@ -1,0 +1,12 @@
+@use "./constants.scss" as c;
+
+@mixin menu-page {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	color: c.$white;
+	text-align: center;
+	background: rgba(0, 0, 0, 0.7);
+	backdrop-filter: blur(8.1px);
+	-webkit-backdrop-filter: blur(8.1px);
+}

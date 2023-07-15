@@ -75,10 +75,6 @@ a:visited {
   color: #6529d6;
 }
 
-a:visited {
-  color: var(--c-blue-200);
-}
-
 .tright {
   clear: both;
   float: none;
