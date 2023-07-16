@@ -3,10 +3,6 @@ import "../css/wiki_frame.css";
 import "../css/wikipedia.css";
 
 export const WikiFrame: React.FC<{ wikiData: WikipediaData[], visible: boolean }> = ({ wikiData, visible }) => {
-	if (wikiData === undefined) {
-		console.log("Undefined");
-		return;
-	}
 
 	let displayData = wikiData.map((data: any) => 
 		<>
