@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { StatusBar } from "./components/StatusBar";
 import { WikiFrame } from "./components/WikiFrame";
 import { ResultsPage } from "./components/ResultsPage";
-import { Footer } from "./components/Footer";
 import { WikipediaData, ResultsData } from "./types";
 import "./css/app.css";
 
@@ -114,8 +113,8 @@ function App() {
 
     return (
         <>
+            <StatusBar hops={hopCount} onToggleButtonClick={() => setVisible(visible => !visible)} titles={[startingTitle, destinationTitle]}/>
             <div className="main-view">
-                <StatusBar hops={hopCount} onToggleButtonClick={() => setVisible(visible => !visible)} titles={[startingTitle, destinationTitle]}/>
                 <WikiFrame visible={visible} wikiData={wikiData} />
                 <ResultsPage data={resultsData} />
             </div>
