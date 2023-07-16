@@ -49,24 +49,26 @@ function App() {
 
     useEffect(() => { // Generates HTML of two random wikipedia articles
         const generate_wikipedia_titles = async (): Promise<any> => {
-            // const API_ENDPOINT: string = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=random&rnnamespace=0&rnlimit=2&origin=*`;
-            // let data: Response = await fetch(API_ENDPOINT, { method: "GET" });
-            // let json = await data.json();
-            // let titles = json.query.random; 
+            const API_ENDPOINT: string = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=random&rnnamespace=0&rnlimit=2&origin=*`;
+            let data: Response = await fetch(API_ENDPOINT, { method: "GET" });
+            let json = await data.json();
+            let titles = json.query.random; 
+            let index: number = 0;
+            // let titles = [{ id: 65243424, ns: 0, title: "Sophie Wachner" }, { id: 24370563, ns: 0, title: "Selznick International Pictures" }];
 
-            let titles = [{ id: 65243424, ns: 0, title: "Sophie Wachner" }, { id: 24370563, ns: 0, title: "Selznick International Pictures" }];
             titles.forEach(async (title: any) => { // Get HTML data using wikipedia titles
                     let data: WikipediaData | undefined = await get_wikipedia_data(title.title);
-                    if (data === undefined) {
-                        console.log("undefined data");
-                        return;
-                    };
+                    if (data === undefined || blocked) return;
+                    setWikiData(previous => [...previous, data || {} as WikipediaData]);
 
-                    if (!blocked) setWikiData(previous => [...previous, data || {} as WikipediaData]);
+                    if (index == 0 ){
+                        setStartingTitle(title.title);
+                    } else {
+                        setDestinationTitle(title.title);
+                    }
+
+                    index++;
             });
-            
-            setStartingTitle(titles[0].title);
-            setDestinationTitle(titles[1].title);
             return;
         }
 

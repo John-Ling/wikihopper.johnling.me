@@ -1,7 +1,7 @@
 import "../css/status_bar.css";
 
 export const StatusBar: React.FC<{hops: number, onToggleButtonClick(): void, titles: string[] }> = ({ hops, onToggleButtonClick, titles }) => {
-	let pageLabels: JSX.Element[] = titles.map((title: string, index: number) => <p>{index == 0 ? "Start" : "Target"}: {title}</p>);
+	let pageLabels: JSX.Element[] = titles.map((title: string, index: number) => title ? <p>{index == 0 ? "Start" : "Target"}: {title}</p> : <p>Loading...</p>);
 
 	return (
 		<>
