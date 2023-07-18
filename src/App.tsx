@@ -28,18 +28,17 @@ function App() {
     const [hopCount, setHopCount] = useState(10);
     const [visible, setVisible] = useState(true);  // Determines which iframe is shown (true or 1 = 1st | false or 0 = 2nd)
     const [resultsData, setResultsData] = useState<ResultsData>({visible: false, won: false});
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         let visible: boolean = false;
         let won: boolean = false;
         if (currentTitle === destinationTitle && destinationTitle !== "") {
-            console.log("You Win");
             visible = true;
             won = true;
         }
 
         if (hopCount == 0) {
-            console.log("You Lose");
             visible = true;
         }
 
@@ -60,12 +59,7 @@ function App() {
                     if (data === undefined || blocked) return;
                     setWikiData(previous => [...previous, data || {} as WikipediaData]);
 
-                    if (index == 0 ){
-                        setStartingTitle(title.title);
-                    } else {
-                        setDestinationTitle(title.title);
-                    }
-
+                    index == 0 ? setStartingTitle(title.title) : setDestinationTitle(title.title);
                     index++;
             });
             return;
@@ -88,20 +82,29 @@ function App() {
             document.querySelectorAll('a').forEach(element => {
                 element.addEventListener("click", (event: any) => {
                     event.preventDefault();
+                    
+                    if (loading) return; // Disable link clicks when navigating to next page
+                    setLoading(true);
 
                     if (!visible) return; // Disable link clicks for second target page
-
                     let targetURL: string = event.target.href;
                     let title: string = targetURL.split("/wiki/")[1];
-                    title = title.split("#")[0]; // Remove any id tags
-                    // title = title.replace(/ /g, "_");
-                    setCurrentTitle(title.replace(/_/g, " "));
+
+                    if (title.includes('#')) {
+                        title = title.split('#')[0]; // Remove any id tags
+                    }
+
+                    let updated: string = title.replace(/_/g, ' ');
+                    setCurrentTitle(updated);
                     setHopCount(hopCount - 1);
 
                     if (wikiData === undefined) return;
                     let destinationPage: WikipediaData = wikiData[1];
 
-                    get_wikipedia_data(title)?.then(newPage => setWikiData([newPage, destinationPage]));
+                    get_wikipedia_data(title)?.then(newPage => {
+                        setWikiData([newPage, destinationPage]);
+                        setLoading(false);
+                    });
                 });
             });
         }

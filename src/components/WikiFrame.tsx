@@ -3,6 +3,8 @@ import "../css/wiki_frame.css";
 import "../css/wikipedia.css";
 
 export const WikiFrame: React.FC<{ wikiData: WikipediaData[], visible: boolean }> = ({ wikiData, visible }) => {
+	let wikiFrameA = <p>Loading...</p>;
+	let wikiFrameB = <p>Loading...</p>;
 
 	let displayData = wikiData.map((data: any) => 
 		<>
@@ -13,8 +15,8 @@ export const WikiFrame: React.FC<{ wikiData: WikipediaData[], visible: boolean }
 		</>
 	);
 	
-	let wikiFrameA = displayData ? displayData[0] : <p>Loading</p>;
-	let wikiFrameB = displayData ? displayData[1] : <p>Loading</p>;
+	wikiFrameA = displayData[0];
+	wikiFrameB = displayData[1];
 
 	return (
 		<>
