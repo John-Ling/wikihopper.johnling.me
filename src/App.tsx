@@ -52,7 +52,6 @@ function App() {
             let json = await data.json();
             let titles = json.query.random; 
             let index: number = 0;
-            // let titles = [{ id: 65243424, ns: 0, title: "Sophie Wachner" }, { id: 24370563, ns: 0, title: "Selznick International Pictures" }];
 
             titles.forEach(async (title: any) => { // Get HTML data using wikipedia titles
                     let data: WikipediaData | undefined = await get_wikipedia_data(title.title);
