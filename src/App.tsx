@@ -27,7 +27,7 @@ function App() {
     const [wikiData, setWikiData] = useState<WikipediaData[]>([]);
     const [hopCount, setHopCount] = useState(10);
     const [visible, setVisible] = useState(true);  // Determines which iframe is shown (true or 1 = 1st | false or 0 = 2nd)
-    const [resultsData, setResultsData] = useState<ResultsData>({visible: false, won: false});
+    const [resultsData, setResultsData] = useState<ResultsData>({} as ResultsData);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ function App() {
             visible = true;
         }
 
-        setResultsData({visible: visible, won: won});
+        setResultsData({visible: visible, won: won, startTitle: startingTitle, endTitle: destinationTitle});
     }, [currentTitle, destinationTitle, hopCount])
 
     useEffect(() => { // Generates HTML of two random wikipedia articles

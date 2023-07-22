@@ -10,4 +10,6 @@ export type WikipediaData = { // Format of JSON data received by calling the wik
 export type ResultsData = {
 	visible: boolean;
 	won: boolean;
+	startTitle: string;
+	endTitle: string;
 };
