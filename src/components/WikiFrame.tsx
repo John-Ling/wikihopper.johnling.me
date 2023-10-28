@@ -2,6 +2,8 @@ import { WikipediaData } from "../types";
 import "../css/wiki_frame.css";
 import "../css/wikipedia.css";
 
+import dompurify from "dompurify";
+
 export const WikiFrame: React.FC<{ wikiData: WikipediaData[], visible: boolean }> = ({ wikiData, visible }) => {
 	let wikiFrameA = <p>Loading...</p>;
 	let wikiFrameB = <p>Loading...</p>;
@@ -10,7 +12,7 @@ export const WikiFrame: React.FC<{ wikiData: WikipediaData[], visible: boolean }
 		<>
 			<div className="wiki-frame">
 				<h2>{data.parse.title}</h2>
-				<div className="wiki-view" dangerouslySetInnerHTML={{__html: data.parse.text['*']}}/>
+				<div className="wiki-view" dangerouslySetInnerHTML={{__html: dompurify.sanitize(data.parse.text['*'])}}/>
 			</div>
 		</>
 	);
