@@ -20,6 +20,7 @@ const get_wikipedia_data = (title: string): Promise<WikipediaData> | undefined =
     return cache.get(title);
 }
 
+
 function App() {
     const [startingTitle, setStartingTitle] = useState<string>(""); // Starting title where the player starts
     const [currentTitle, setCurrentTitle] = useState<string>("");
