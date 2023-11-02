@@ -20,6 +20,16 @@ const get_wikipedia_data = (title: string): Promise<WikipediaData> | undefined =
     return cache.get(title);
 }
 
+const clean_url = (url: string): string => {
+    let title: string = url.split("/wiki/")[1];
+
+    if (title.includes('#')) {
+        title = title.split('#')[0]; // Remove any id tags
+    }
+
+    let updated: string = title.replace(/_/g, ' ');
+    return updated;
+}
 
 function App() {
     const [startingTitle, setStartingTitle] = useState<string>(""); // Starting title where the player starts
@@ -31,7 +41,7 @@ function App() {
     const [resultsData, setResultsData] = useState<ResultsData>({} as ResultsData);
     const [loading, setLoading] = useState<boolean>(false);
 
-    useEffect(() => {
+    useEffect(() => { // check if game is won or lost
         let visible: boolean = false;
         let won: boolean = false;
         if (currentTitle === destinationTitle && destinationTitle !== "") {
@@ -74,40 +84,43 @@ function App() {
             blocked = true;
         }
     }, []);
-
-    useEffect(() => {
+    
+    useEffect(() => { // change default link behaviour
         let blocked: boolean = false;
 
-        if (!blocked) {
-            document.querySelectorAll('a').forEach(element => {
-                element.addEventListener("click", (event: any) => {
-                    event.preventDefault();
-                    
-                    if (loading) return; // Disable link clicks when navigating to next page
-                    setLoading(true);
+        if (blocked) {
+            console.log('Blocked');
+            return;
+        }
 
-                    if (!visible) return; // Disable link clicks for second target page
-                    let targetURL: string = event.target.href;
-                    let title: string = targetURL.split("/wiki/")[1];
+        document.querySelectorAll('a').forEach(element => {
+            element.addEventListener("click", (event: any) => {
+                event.preventDefault();
+                
+                if (loading) {
+                    return; // Disable link clicks when navigating to next page
+                }
 
-                    if (title.includes('#')) {
-                        title = title.split('#')[0]; // Remove any id tags
-                    }
+                setLoading(true);
 
-                    let updated: string = title.replace(/_/g, ' ');
-                    setCurrentTitle(updated);
-                    setHopCount(hopCount - 1);
+                if (!visible){
+                    return; // Disable link clicks for second target page
+                } 
 
-                    if (wikiData === undefined) return;
-                    let destinationPage: WikipediaData = wikiData[1];
+                let title = clean_url(event.target.href);
+                
+                setCurrentTitle(title);
+                setHopCount(hopCount - 1);
 
-                    get_wikipedia_data(title)?.then(newPage => {
-                        setWikiData([newPage, destinationPage]);
-                        setLoading(false);
-                    });
+                if (wikiData === undefined) return;
+                let destinationPage: WikipediaData = wikiData[1];
+
+                get_wikipedia_data(title)?.then(newPage => {
+                    setWikiData([newPage, destinationPage]);
+                    setLoading(false);
                 });
             });
-        }
+        });
         
         return () => {
             blocked = true;
