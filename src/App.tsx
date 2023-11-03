@@ -41,6 +41,36 @@ function App() {
     const [resultsData, setResultsData] = useState<ResultsData>({} as ResultsData);
     const [loading, setLoading] = useState<boolean>(false);
 
+    const handle_link_click = (event: any) => {
+        event.preventDefault();
+
+        if (loading) {
+            return; // Disable link clicks when navigating to next page
+        }
+
+        setLoading(true);
+
+        if (!visible){
+            console.log("Clicked second page");
+            setLoading(false);
+            return; // Disable link clicks for second target page
+        } 
+
+        let title = clean_url(event.target.href);
+        setCurrentTitle(title);
+        setHopCount(hopCount - 1);
+
+        if (wikiData === undefined) {
+            return;
+        }
+
+        let destinationPage: WikipediaData = wikiData[1];
+        get_wikipedia_data(title)?.then(newPage => {
+            setWikiData([newPage, destinationPage]);
+            setLoading(false);
+        });
+    }
+
     useEffect(() => { // check if game is won or lost
         let visible: boolean = false;
         let won: boolean = false;
@@ -53,7 +83,7 @@ function App() {
             visible = true;
         }
 
-        setResultsData({visible: visible, won: won, startTitle: startingTitle, endTitle: destinationTitle});
+        setResultsData({visible: visible, won: won, startTitle: startingTitle, endTitle: destinationTitle, hopsTaken: 10 - hopCount});
     }, [currentTitle, destinationTitle, hopCount])
 
     useEffect(() => { // Generates HTML of two random wikipedia articles
@@ -65,12 +95,15 @@ function App() {
             let index: number = 0;
 
             titles.forEach(async (title: any) => { // Get HTML data using wikipedia titles
-                    let data: WikipediaData | undefined = await get_wikipedia_data(title.title);
-                    if (data === undefined || blocked) return;
-                    setWikiData(previous => [...previous, data || {} as WikipediaData]);
+                let data: WikipediaData | undefined = await get_wikipedia_data(title.title);
+                if (data === undefined || blocked) {
+                    return;
+                }
 
-                    index == 0 ? setStartingTitle(title.title) : setDestinationTitle(title.title);
-                    index++;
+                setWikiData(previous => [...previous, data || {} as WikipediaData]);
+
+                index == 0 ? setStartingTitle(title.title) : setDestinationTitle(title.title);
+                index++;
             });
             return;
         }
@@ -85,42 +118,12 @@ function App() {
         }
     }, []);
     
-    useEffect(() => { // change default link behaviour
+    useEffect(() => { // change default link behaviour after wikipedia data is rendered
         let blocked: boolean = false;
 
-        if (blocked) {
-            console.log('Blocked');
-            return;
+        if (!blocked) {
+            document.querySelectorAll('a').forEach(element => element.addEventListener("click", handle_link_click));
         }
-
-        document.querySelectorAll('a').forEach(element => {
-            element.addEventListener("click", (event: any) => {
-                event.preventDefault();
-                
-                if (loading) {
-                    return; // Disable link clicks when navigating to next page
-                }
-
-                setLoading(true);
-
-                if (!visible){
-                    return; // Disable link clicks for second target page
-                } 
-
-                let title = clean_url(event.target.href);
-                
-                setCurrentTitle(title);
-                setHopCount(hopCount - 1);
-
-                if (wikiData === undefined) return;
-                let destinationPage: WikipediaData = wikiData[1];
-
-                get_wikipedia_data(title)?.then(newPage => {
-                    setWikiData([newPage, destinationPage]);
-                    setLoading(false);
-                });
-            });
-        });
         
         return () => {
             blocked = true;

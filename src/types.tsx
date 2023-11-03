@@ -12,4 +12,5 @@ export type ResultsData = {
 	won: boolean;
 	startTitle: string;
 	endTitle: string;
+	hopsTaken: number;
 };
