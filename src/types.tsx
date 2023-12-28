@@ -13,4 +13,5 @@ export type ResultsData = {
 	startTitle: string;
 	endTitle: string;
 	hopsTaken: number;
+	hops: string[];
 };
