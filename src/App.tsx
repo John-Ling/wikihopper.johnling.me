@@ -3,33 +3,9 @@ import { StatusBar } from "./components/StatusBar";
 import { WikiFrame } from "./components/WikiFrame";
 import { ResultsPage } from "./components/ResultsPage";
 import { WikipediaData, ResultsData } from "./types";
-import "./css/app.css";
+import "./styles/app.scss";
 
-const cache: Map<string, Promise<WikipediaData>> = new Map();
-
-const fetch_wikipedia_data = async (title: string): Promise<WikipediaData> => {
-    const API_ENDPOINT: string = `https://en.wikipedia.org/w/api.php?action=parse&page=${title}&format=json&origin=*`;
-    let data: Response = await fetch(API_ENDPOINT, { method: "GET" });
-    return data.json();
-}
-
-const get_wikipedia_data = (title: string): Promise<WikipediaData> | undefined => {
-    if (!cache.has(title)) {
-        cache.set(title, fetch_wikipedia_data(title));
-    }
-    return cache.get(title);
-}
-
-const clean_url = (url: string): string => {
-    let title: string = url.split("/wiki/")[1];
-
-    if (title.includes('#')) {
-        title = title.split('#')[0]; // Remove any id tags
-    }
-
-    let updated: string = title.replace(/_/g, ' ');
-    return updated;
-}
+import { clean_url, get_wikipedia_data } from "./utils";
 
 function App() {
     const [startingTitle, setStartingTitle] = useState<string>(""); // Starting title where the player starts
@@ -85,7 +61,13 @@ function App() {
             visible = true;
         }
 
-        setResultsData({visible: visible, won: won, startTitle: startingTitle, endTitle: destinationTitle, hopsTaken: 10 - hopCount, hops: hops});
+        setResultsData({
+            visible: visible,
+            won: won, startTitle: startingTitle,
+            endTitle: destinationTitle, 
+            hopsTaken: 10 - hopCount, 
+            hops: hops
+        });
     }, [currentTitle, destinationTitle, hopCount])
 
     useEffect(() => { // Generates HTML of two random wikipedia articles
@@ -134,7 +116,11 @@ function App() {
 
     return (
         <>
-            <StatusBar hops={hopCount} onToggleButtonClick={() => setVisible(visible => !visible)} titles={[startingTitle, destinationTitle]}/>
+            <StatusBar 
+                hops={hopCount} 
+                onToggleButtonClick={() => setVisible(visible => !visible)}
+                titles={[startingTitle, destinationTitle]}
+            />
             <div className="main-view">
                 <WikiFrame visible={visible} wikiData={wikiData} />
                 <ResultsPage data={resultsData} />

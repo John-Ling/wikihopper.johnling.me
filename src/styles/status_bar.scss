@@ -10,6 +10,7 @@
 	position: fixed;
 	top: 0;
 	width: 100%;
+	z-index: 20;
 }
 
 @mixin button($colour) {
@@ -19,9 +20,13 @@
 	color: c.$white;
 	border-radius: 5px;
 
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+	Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
 	&:hover {
 		background-color: color.scale($colour, $lightness: -5%);
 		color: color.scale(c.$white, $lightness: -5%);
+		cursor: pointer;
 	}
 }
 

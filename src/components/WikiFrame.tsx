@@ -1,7 +1,7 @@
 import { WikipediaData } from "../types";
 
-import "../css/wiki_frame.css";
-import "../css/wikipedia.css";
+import "../styles/wiki_frame.scss";
+import "../styles/wikipedia.scss";
 
 import DOMPurify from "dompurify";	
 

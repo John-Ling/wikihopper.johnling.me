@@ -1,4 +1,4 @@
-import "../css/results_page.css";
+import "../styles/results_page.scss";
 import { ResultsData } from "../types";
 
 export const ResultsPage: React.FC<{ data: ResultsData }> = ({ data }) => {
